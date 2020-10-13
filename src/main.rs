@@ -4,10 +4,15 @@ extern crate raylib;
 use raylib::prelude::*;
 
 // Import modules
+mod event;
+mod managers;
 mod scene;
 mod scenes;
 
 // Use local
+use managers::scenes_manager::ScenesManager;
+// use scene::Scene;
+use event::EventHandler;
 use scenes::main_scene::MainScene;
 
 fn main() {
@@ -16,18 +21,23 @@ fn main() {
     // Set the game to 60 FPS
     rl.set_target_fps(60);
 
-    let mut scene = MainScene::new();
+    // Prevent to quit the game pressing escape
+    rl.set_exit_key(None);
+
+    let main_scene = MainScene::new();
+    let mut scene_manager = ScenesManager::new(vec![main_scene], main_scene);
 
     // Main game loop
     while !rl.window_should_close() {
         // Update the current scene
-        scene.update(&mut rl);
+        scene_manager.current.update(&mut rl);
 
         let mut d = rl.begin_drawing(&thread);
 
+        // Always draw the background as white by default
         d.clear_background(Color::WHITE);
 
         // Draw the current scene
-        scene.draw(&mut d);
+        scene_manager.current.draw(&mut d);
     }
 }
