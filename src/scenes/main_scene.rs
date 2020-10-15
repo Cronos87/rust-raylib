@@ -2,29 +2,27 @@ use raylib::consts::KeyboardKey::*;
 use raylib::prelude::*;
 
 // Use local
-use crate::event::EventHandler;
+use crate::scene::Scene;
 
-#[derive(Copy, Clone)]
 struct Position {
     x: i32,
     y: i32,
 }
 
-#[derive(Copy, Clone)]
 pub struct MainScene {
     text_position: Position,
 }
 
 impl MainScene {
     /// Create the main scene
-    pub fn new() -> MainScene {
+    pub fn new() -> Self {
         MainScene {
             text_position: Position { x: 20, y: 20 },
         }
     }
 }
 
-impl EventHandler for MainScene {
+impl Scene for MainScene {
     fn update(&mut self, rl: &mut RaylibHandle) {
         // Add movement to the text
         if rl.is_key_down(KEY_LEFT) {

@@ -4,13 +4,11 @@ extern crate raylib;
 use raylib::prelude::*;
 
 // Import modules
-mod event;
 mod managers;
 mod scene;
 mod scenes;
 
 // Use local
-use event::EventHandler;
 use managers::scenes_manager::ScenesManager;
 use scenes::main_scene::MainScene;
 
@@ -23,8 +21,8 @@ fn main() {
     // Prevent to quit the game pressing escape
     rl.set_exit_key(None);
 
-    let mut main_scene = MainScene::new();
-    let scene_manager = ScenesManager::new(vec![main_scene], &mut main_scene);
+    let main_scene = MainScene::new();
+    let mut scene_manager = ScenesManager::new(Box::new(main_scene));
 
     // Main game loop
     while !rl.window_should_close() {
