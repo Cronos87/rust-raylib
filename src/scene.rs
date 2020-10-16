@@ -10,8 +10,8 @@ pub trait Scene {
     ///
     /// # Arguments
     ///
-    /// * `rl` - Raylib draw instance
-    fn update(&mut self, rl: &mut RaylibHandle);
+    /// * `rl` - Raylib instance
+    fn update(&mut self, rl: &mut RaylibHandle) -> Option<Box<dyn Scene>>;
 
     /// Draw the scene on every frame
     ///

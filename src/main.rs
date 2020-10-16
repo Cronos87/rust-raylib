@@ -9,7 +9,7 @@ mod scene;
 mod scenes;
 
 // Use local
-use managers::scenes_manager::ScenesManager;
+use scene::Scene;
 use scenes::main_scene::MainScene;
 
 fn main() {
@@ -22,19 +22,25 @@ fn main() {
     rl.set_exit_key(None);
 
     let main_scene = MainScene::new();
-    let mut scene_manager = ScenesManager::new(Box::new(main_scene));
+    let mut current_scene: Box<dyn Scene> = Box::new(main_scene);
 
     // Main game loop
     while !rl.window_should_close() {
-        // Update the current scene
-        scene_manager.current.update(&mut rl);
+        /* -------------------- Update Scene -------------------- */
+        let new_scene = current_scene.update(&mut rl);
 
+        /* ------------------------ Draw ------------------------ */
         let mut d = rl.begin_drawing(&thread);
 
         // Always draw the background as white by default
         d.clear_background(Color::WHITE);
 
         // Draw the current scene
-        scene_manager.current.draw(&mut d);
+        current_scene.draw(&mut d);
+
+        /* --------------------- Init Scene --------------------- */
+        if let Some(scene) = new_scene {
+            current_scene = scene;
+        }
     }
 }

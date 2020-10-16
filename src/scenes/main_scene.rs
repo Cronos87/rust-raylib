@@ -3,6 +3,7 @@ use raylib::prelude::*;
 
 // Use local
 use crate::scene::Scene;
+use crate::scenes::main_menu_scene::MainMenuScene;
 
 struct Position {
     x: i32,
@@ -23,7 +24,7 @@ impl MainScene {
 }
 
 impl Scene for MainScene {
-    fn update(&mut self, rl: &mut RaylibHandle) {
+    fn update(&mut self, rl: &mut RaylibHandle) -> Option<Box<dyn Scene>> {
         // Add movement to the text
         if rl.is_key_down(KEY_LEFT) {
             self.text_position.x -= 1;
@@ -36,6 +37,12 @@ impl Scene for MainScene {
         }
         if rl.is_key_down(KEY_DOWN) {
             self.text_position.y += 1;
+        }
+
+        if rl.is_key_released(KEY_ENTER) {
+            Some(Box::new(MainMenuScene::new()))
+        } else {
+            None
         }
     }
 
