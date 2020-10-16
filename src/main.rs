@@ -4,7 +4,6 @@ extern crate raylib;
 use raylib::prelude::*;
 
 // Import modules
-mod managers;
 mod scene;
 mod scenes;
 
