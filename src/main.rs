@@ -21,8 +21,8 @@ fn main() {
     rl.set_exit_key(None);
 
     // Create the first scene of the game
-    let main_scene = MainScene::new();
-    main_scene.init(&mut rl);
+    let mut main_scene = MainScene::new();
+    main_scene.init(&thread, &mut rl);
 
     // Define the current scene as the first scene
     let mut current_scene: Box<dyn Scene> = Box::new(main_scene);
@@ -37,25 +37,11 @@ fn main() {
             current_scene = scene;
 
             // Init the scene
-            current_scene.init(&mut rl);
-
-            // Reset the next scene
-            next_scene = None
+            current_scene.init(&thread, &mut rl);
         }
 
         /* -------------------- Update Scene -------------------- */
-        let new_scene = current_scene.update(&mut rl);
-
-        /* ---------------------- New Scene --------------------- */
-        // If a new scene has been returns,
-        // define the next scene with the new one
-        if let Some(scene) = new_scene {
-            // Replace scene
-            current_scene = scene;
-
-            // Init the new scene
-            current_scene.init(&mut rl);
-        }
+        next_scene = current_scene.update(&mut rl);
 
         /* ------------------------ Draw ------------------------ */
         let mut d = rl.begin_drawing(&thread);

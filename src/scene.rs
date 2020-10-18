@@ -1,6 +1,7 @@
 extern crate raylib;
 
 // External uses
+use raylib::core::RaylibThread;
 use raylib::drawing::RaylibDrawHandle;
 use raylib::RaylibHandle;
 
@@ -11,8 +12,9 @@ pub trait Scene {
     ///
     /// # Arguments
     ///
+    /// * `thread` - Raylib thread
     /// * `rl` - Raylib instance
-    fn init(&self, _rl: &mut RaylibHandle) {}
+    fn init(&mut self, _thread: &RaylibThread, _rl: &mut RaylibHandle) {}
 
     /// Update the scene on every frame
     ///
